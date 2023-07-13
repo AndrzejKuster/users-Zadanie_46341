@@ -3,9 +3,9 @@ import './ButtonsPanel.css'
 const ButtonsPanel = (props) => {
     return (
     <div className="filteringButtons">
-        <button onClick={()=> props.filteringUsersByType('Admins')}>Wyśwetl tylko adminów</button>
-        <button onClick={()=> props.filteringUsersByType('Users')}>Wyśwetl tylko userów</button>
-        <button onClick={()=> props.filteringUsersByType('All')}>Wyśwetl wszystkich</button>
+        <button className={props.filter==='admins' ? 'active' : ''} onClick={()=> props.setFilter('admins')}>Wyświetl tylko adminów</button>
+        <button className={props.filter==='users' ? 'active' : ''} onClick={()=> props.setFilter('users')}>Wyświetl tylko userów</button>
+        <button className={props.filter==='all' ? 'active' : ''}onClick={()=> props.setFilter('all')}>Wyświetl wszystkich</button>
     </div>
 )}
 

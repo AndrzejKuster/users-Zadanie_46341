@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './UsersList.css'
 import ButtonsPanel from './ButtonsPanel';
 
@@ -13,6 +13,14 @@ const UsersList = () => {
     });
 
     const [users, setUsers] = useState([]);
+
+    const [filteredUsers, setFilteredUsers] = useState([]);
+
+    const [filter, setFilter] = useState('all');
+
+    useEffect(()=> {
+        filteringUsersByType(filter);
+    }, [filter, users])
 
     const handleInputChange = (e) => {
         const target = e.target;
@@ -32,33 +40,30 @@ const UsersList = () => {
         setUsers(filteredUsers);
     }
 
-    // const [filteredUsersByType, setFilteredUsersByType] = useState([]);
-
     const filteringUsersByType = (usertype) => {
 
-    const filteredUsersByType = { ...users };
+        let filteredUsersByType = [];
 
-        if (usertype === 'Admins') {
-            const filteredUsers = filteredUsersByType.filter(user => user.usertype === 'Admin');
+        if (usertype === 'admins') {
+            filteredUsersByType = users.filter(user => user.usertype === 'Admin');
             console.log('przefiltrowani admini: ', filteredUsersByType);
-            
 
-        } else if (usertype === 'Users') {
+
+        } else if (usertype === 'users') {
             filteredUsersByType = users.filter(user => user.usertype === 'User');
             console.log('przefiltrowani userzy: ', filteredUsersByType);
 
-        } else if (usertype === 'All') {
+        } else {
+
             filteredUsersByType = users;
             console.log('wszyscy: ', filteredUsersByType);
         }
-        
+
         console.log('przefiltrowana tablica: ', filteredUsersByType);
         console.log('co jest w tablicy oryginalnej :', users);
+
+        setFilteredUsers(filteredUsersByType);
     }
-
-
-
-    
 
     return (
         <div className="usersList">
@@ -76,23 +81,19 @@ const UsersList = () => {
                 <button>Save</button>
             </form>
 
-            <ButtonsPanel filteringUsersByType={filteringUsersByType} />
+            <ButtonsPanel setFilter={setFilter} filter={filter} />
 
             <div className="list">
-                {users.map((user) => {
+                {filteredUsers.map((user) => {
                     return <div className="userItem" key={user.id} onClick={() => removeUser(user.id)}>
                         <p>{user.username}</p>
                         <p>{user.email}</p>
                         <p>{user.usertype}</p>
                     </div>
                 })}
-
-
             </div>
-
         </div>
     )
-
 }
 
 export default UsersList;

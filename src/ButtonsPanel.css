@@ -11,6 +11,10 @@
     border: 1px solid green;
 }
 
+.filteringButtons button.active{
+    background-color: lightcoral;
+}
+
 .filteringButtons button:hover{
     text-decoration: underline;
     background-color: aliceblue;
